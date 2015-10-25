@@ -1,5 +1,8 @@
 package simulator;
+import Events;
+
 import java.util.*;
+
 import org.joda.time.DateTime;
 
 
@@ -11,7 +14,6 @@ import java.util.Random;
 
 
 public class EventScheduler {
-<<<<<<< HEAD
 
   private static int OPEN_HOUR = 8;
   private static int TOTAL_HOUR = 1;
@@ -69,7 +71,6 @@ public class EventScheduler {
     return 5;
   }
 
-=======
 	
 	private static int OPEN_HOUR = 8;
 	private static int TOTAL_HOUR = 1;
@@ -126,5 +127,32 @@ public class EventScheduler {
 		
 		return 5;
 	}
->>>>>>> Event + Main
+	
+	
+	/** Events by buster
+	 *   private ArrayList<Events> eventQueue;
+  
+  public EventScheduler() {
+    this.eventQueue = new ArrayList<Events>();
+  }
+  
+  public void addEvent(Events aaEvent) {
+    eventQueue.add(aaEvent);
+  }
+  
+  
+   * Update event info and replace it with one in queue.
+   * 
+   
+  public void updateEvent(Events oldEvent, Events newEvent) {
+    @SuppressWarnings("unused")
+    Events targetEvent;
+    for (int x = 0; x < eventQueue.size(); x++) {
+      if (eventQueue.get(x) == oldEvent) {
+        targetEvent = eventQueue.get(x);
+      }
+    }
+    targetEvent = newEvent;
+  }
+	 */
 }
