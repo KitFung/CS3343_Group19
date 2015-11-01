@@ -2,24 +2,16 @@ package simulator;
 
 import org.joda.time.DateTime;
 
-
-import org.joda.time.DateTime;
-
 import java.util.ArrayList;
 
 public class Manager {
-<<<<<<< HEAD
-<<<<<<< HEAD
 
   private EventScheduler es;
 
   private ArrayList<Table> allTables;
 
-=======
-
   private EventScheduler es;
 
->>>>>>> Event update
   public Manager() {
     //es = EventScheduler.getInstance();
   }
@@ -33,7 +25,6 @@ public class Manager {
   public void add( DateTime dt , CustomerGroup cg) {
     es = EventScheduler.getInstance();
     DateTime dtNew = dt.plusMinutes(5);
-<<<<<<< HEAD
     System.out.println(dtNew.toString() +  " , "  + " , " + cg.toString());
     es.addEvents(new CustomerWaitFoodEvent(dtNew , cg));
   }
@@ -92,10 +83,4 @@ public class Manager {
     
     return allCustomerGroups;
   }
-=======
-    //new CustomerWaitFoodEvent(dtNew , cg).addEvent(es);
-    new CustomerWaitFoodEvent(dtNew , cg).addToScheduler();
-  }
-
->>>>>>> Event update
 }

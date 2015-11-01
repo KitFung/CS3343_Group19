@@ -9,11 +9,9 @@ public class RandomGenerator {
 
   public static final int MAX_MEAL_TIME_MIN = 40;
   public static final int MIN_MEAL_TIME_MIN = 10;
-<<<<<<< HEAD
-=======
-  
+
   public static final int MAX_CUSTOMER_IN_GROUP = 6;
->>>>>>> Event update
+
   //int randomNum = rand.nextInt((max - min) + 1) + min;
 
   static Random rnd = new Random();
@@ -25,9 +23,7 @@ public class RandomGenerator {
   public static int getEatingTime() {
     return rnd.nextInt(MAX_MEAL_TIME_MIN - MIN_MEAL_TIME_MIN + 1) + MIN_MEAL_TIME_MIN;
   }
-<<<<<<< HEAD
-=======
-  
+
   public static int getJoinQueueTime()
   {
 	  return rnd.nextInt(61);
@@ -59,5 +55,4 @@ public class RandomGenerator {
 	  }
 	  return total;
   }
->>>>>>> Event update
 }

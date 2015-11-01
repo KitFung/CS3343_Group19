@@ -10,18 +10,9 @@ public class CustomerEatingEvent extends CustomerEvent {
     // TODO Auto-generated constructor stub
   }
 
-<<<<<<< HEAD
-	@Override
-	void execute() {
-		//cg.setState(new CustomerEating);
-		
-	}
-=======
   @Override
   void execute() {
 	  System.out.format("%s is eating\n" , super.getExecuteStatementHeader());
     //cg.setState(new CustomerEating);
   }
-
->>>>>>> Event update
 }
