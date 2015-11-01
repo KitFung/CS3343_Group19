@@ -1,17 +1,26 @@
 package simulator;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 import java.util.Date;
 >>>>>>> Event + Main
+=======
+
+>>>>>>> Event update
 import org.joda.time.DateTime;
 
 public class CustomerJoinQueueEvent extends CustomerEvent{
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   Manager manager;
   CustomerGroup cg;
 
+=======
+  Manager manager;
+  CustomerGroup cg;
+>>>>>>> Event update
   /**
    * The event when the customer join the queue.
    * 
@@ -22,12 +31,17 @@ public class CustomerJoinQueueEvent extends CustomerEvent{
   public CustomerJoinQueueEvent(DateTime dt , CustomerGroup cg , Manager manager) {
     super(dt , cg);
     this.manager = manager;
+<<<<<<< HEAD
     System.out.println("a join quene event created to be executed at " + dt.toString());
     //QueueManager.appendCustomer
+=======
+    //System.out.println("a join quene event created to be executed at " + dt.toString("HH:mm"));
+>>>>>>> Event update
   }
 
   @Override
   void execute() {
+<<<<<<< HEAD
     //queueManger.add(super.cg);
     manager.add(super.executeTime, super.cg);
     System.out.println(super.getExecuteTime() + " : jqe executed");
@@ -52,4 +66,11 @@ public class CustomerJoinQueueEvent extends CustomerEvent{
 		System.out.println(super.getExecuteTime() + " : jqe executed");
 	}
 >>>>>>> Event + Main
+=======
+	  System.out.format("%s Joins the queue\n" , super.getExecuteStatementHeader());
+    //queueManger.add(super.cg);
+    manager.add(super.executeTime, super.cg);
+  }
+
+>>>>>>> Event update
 }

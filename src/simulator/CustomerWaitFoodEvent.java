@@ -1,13 +1,18 @@
 package simulator;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> Event + Main
+=======
+
+>>>>>>> Event update
 import org.joda.time.DateTime;
 
 
 public class CustomerWaitFoodEvent extends CustomerEvent{
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   //int randomNum = rand.nextInt((max - min) + 1) + min;
 
@@ -35,29 +40,28 @@ public class CustomerWaitFoodEvent extends CustomerEvent{
 =======
 	//int randomNum = rand.nextInt((max - min) + 1) + min;
 	
+=======
+	private int tableNo;
+
+>>>>>>> Event update
 	public CustomerWaitFoodEvent(DateTime dt , CustomerGroup cg) {
 		super(dt, cg);
-		
-		
+		tableNo = -1;
 	}
 
 	@Override
 	void execute() {
 		//cg.setState(new CustomerWaitingFood());
-		System.out.println(super.executeTime.toString() + " a customer is waiting for food");
-		
-		EventScheduler es = EventScheduler.getInstance();
+		System.out.format("%s sits in table#%d , waiting for food\n" , super.getExecuteStatementHeader() , tableNo);
 		int waitTime = RandomGenerator.getWaitFoodTime();
-		DateTime dtEat = super.getExecuteTime().plusMinutes(waitTime);
-		
-		CustomerEatingEvent cee = new CustomerEatingEvent(dtEat , super.cg);
-		es.addEvents(cee);
-		
 		int eatTime = RandomGenerator.getEatingTime();
+		DateTime dtEat = super.getExecuteTime().plusMinutes(waitTime);
 		DateTime dtFinish = dtEat.plusMinutes(eatTime);
+		CustomerEatingEvent cee = new CustomerEatingEvent(dtEat , super.cg);
 		CustomerFinishEvent cfe = new CustomerFinishEvent(dtFinish , cg);
-		es.addEvents(cfe);
-		
+
+		cee.addToScheduler();
+		cfe.addToScheduler();
 	}
 >>>>>>> Event + Main
 

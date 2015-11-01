@@ -1,9 +1,12 @@
 package simulator;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> Event + Main
+=======
+>>>>>>> Event update
 import java.util.ArrayList;
 
 public class ManagerDesk {
