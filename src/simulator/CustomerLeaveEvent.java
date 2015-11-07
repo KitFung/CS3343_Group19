@@ -12,6 +12,10 @@ public class CustomerLeaveEvent extends CustomerEvent{
 
   @Override
   void execute() {
+<<<<<<< HEAD
+=======
+	  System.out.format("%s leaves the restaurant" , super.getExecuteStatementHeader());
+>>>>>>> Event update
     //call the manager to free the desks
   }
 
