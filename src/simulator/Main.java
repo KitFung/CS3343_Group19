@@ -1,10 +1,14 @@
 package simulator;
+<<<<<<< HEAD
 
+=======
+>>>>>>> Event + Main
 import java.util.Map;
 
 
 public class Main {
 
+<<<<<<< HEAD
   Map<Integer , Integer> hourCoeff;
 
   /**
@@ -17,5 +21,17 @@ public class Main {
     es.generateArriveEvents();
     es.executeEvents();
   }
+=======
+	Map<Integer , Integer> hourCoeff;
+	
+	public static void main(String[] args) {
+		EventScheduler es = EventScheduler.getInstance();
+		//To do : read coeff from text file.
+		es.generateArriveEvents();
+		es.executeEvents();
+		
+	}
+	
+>>>>>>> Event + Main
 
 }
