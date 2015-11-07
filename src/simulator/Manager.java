@@ -2,6 +2,7 @@ package simulator;
 
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 
 import org.joda.time.DateTime;
 
@@ -19,7 +20,12 @@ public class Manager {
 
   private EventScheduler es;
 
+<<<<<<< HEAD
 >>>>>>> Event update
+=======
+  private ArrayList<Table> allTables;
+
+>>>>>>> Confliect solve test
   public Manager() {
     //es = EventScheduler.getInstance();
   }
@@ -34,6 +40,9 @@ public class Manager {
     es = EventScheduler.getInstance();
     DateTime dtNew = dt.plusMinutes(5);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Confliect solve test
     System.out.println(dtNew.toString() +  " , "  + " , " + cg.toString());
     es.addEvents(new CustomerWaitFoodEvent(dtNew , cg));
   }
@@ -91,6 +100,7 @@ public class Manager {
     }
     
     return allCustomerGroups;
+<<<<<<< HEAD
   }
 =======
 	
@@ -115,4 +125,7 @@ public class Manager {
   }
 
 >>>>>>> Event update
+=======
+  }
+>>>>>>> Confliect solve test
 }
