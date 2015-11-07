@@ -10,8 +10,6 @@ public class Manager {
 
   private ArrayList<Table> allTables;
 
-  private EventScheduler es;
-
   public Manager() {
     //es = EventScheduler.getInstance();
   }
