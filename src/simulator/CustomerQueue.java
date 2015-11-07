@@ -1,12 +1,5 @@
 package simulator;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
->>>>>>> Event + Main
-=======
->>>>>>> Event update
 import java.util.Date;
 import java.util.PriorityQueue;
 

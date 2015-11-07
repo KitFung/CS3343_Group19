@@ -4,28 +4,12 @@ import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 
-import org.joda.time.DateTime;
-
-import java.util.ArrayList;
-
 public class Manager {
-<<<<<<< HEAD
-<<<<<<< HEAD
 
   private EventScheduler es;
 
   private ArrayList<Table> allTables;
 
-=======
-
-  private EventScheduler es;
-
-<<<<<<< HEAD
->>>>>>> Event update
-=======
-  private ArrayList<Table> allTables;
-
->>>>>>> Confliect solve test
   public Manager() {
     //es = EventScheduler.getInstance();
   }
@@ -39,10 +23,6 @@ public class Manager {
   public void add( DateTime dt , CustomerGroup cg) {
     es = EventScheduler.getInstance();
     DateTime dtNew = dt.plusMinutes(5);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> Confliect solve test
     System.out.println(dtNew.toString() +  " , "  + " , " + cg.toString());
     es.addEvents(new CustomerWaitFoodEvent(dtNew , cg));
   }
@@ -100,32 +80,5 @@ public class Manager {
     }
     
     return allCustomerGroups;
-<<<<<<< HEAD
   }
-=======
-	
-	private EventScheduler es;
-	
-	public Manager()
-	{
-		//es = EventScheduler.getInstance();
-	};
-	
-	public void add( DateTime dt , CustomerGroup cg)
-	{
-		es = EventScheduler.getInstance();
-		DateTime dtNew = dt.plusMinutes(5);
-		System.out.println(dtNew.toString() +  " , "  + " , " + cg.toString());
-		es.addEvents(new CustomerWaitFoodEvent(dtNew , cg));
-	}
->>>>>>> Event + Main
-=======
-    //new CustomerWaitFoodEvent(dtNew , cg).addEvent(es);
-    new CustomerWaitFoodEvent(dtNew , cg).addToScheduler();
-  }
-
->>>>>>> Event update
-=======
-  }
->>>>>>> Confliect solve test
 }
