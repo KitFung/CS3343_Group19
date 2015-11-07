@@ -12,6 +12,7 @@ public class CustomerEatingEvent extends CustomerEvent {
 
   @Override
   void execute() {
+	  System.out.format("%s is eating\n" , super.getExecuteStatementHeader());
     //cg.setState(new CustomerEating);
   }
 
