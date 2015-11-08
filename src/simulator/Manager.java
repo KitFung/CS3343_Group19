@@ -23,7 +23,6 @@ public class Manager {
   public void add( DateTime dt , CustomerGroup cg) {
     es = EventScheduler.getInstance();
     DateTime dtNew = dt.plusMinutes(5);
-    System.out.println(dtNew.toString() +  " , "  + " , " + cg.toString());
     new CustomerWaitFoodEvent(dtNew , cg).addToScheduler();
   }
   
