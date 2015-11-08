@@ -23,8 +23,7 @@ public class Manager {
   public void add( DateTime dt , CustomerGroup cg) {
     es = EventScheduler.getInstance();
     DateTime dtNew = dt.plusMinutes(5);
-    System.out.println(dtNew.toString() +  " , "  + " , " + cg.toString());
-    es.addEvents(new CustomerWaitFoodEvent(dtNew , cg));
+    new CustomerWaitFoodEvent(dtNew , cg).addToScheduler();
   }
   
   public ArrayList<Table> getAllTables() {
