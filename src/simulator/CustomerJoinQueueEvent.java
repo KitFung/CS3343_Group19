@@ -17,12 +17,11 @@ public class CustomerJoinQueueEvent extends CustomerEvent{
     super(dt , cg);
     this.manager = manager;
     //System.out.println("a join quene event created to be executed at " + dt.toString("HH:mm"));
-
   }
 
   @Override
   void execute() {
-	System.out.format("%s Joins the queue\n" , super.getExecuteStatementHeader());
+	  System.out.format("%s Joins the queue\n" , super.getExecuteStatementHeader());
     //queueManger.add(super.cg);
     manager.add(super.executeTime, super.cg);
   }

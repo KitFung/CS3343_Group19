@@ -15,4 +15,5 @@ public class CustomerEatingEvent extends CustomerEvent {
 	  System.out.format("%s is eating\n" , super.getExecuteStatementHeader());
     //cg.setState(new CustomerEating);
   }
+
 }
