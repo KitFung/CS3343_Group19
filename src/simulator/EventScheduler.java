@@ -31,6 +31,7 @@ public class EventScheduler {
 		while (eventlist.size() > 0) {
 			eventlist.get(0).execute();
 			eventlist.remove(0);
+			manager.stateUpdate(dt, false);
 		}
 	}
 	

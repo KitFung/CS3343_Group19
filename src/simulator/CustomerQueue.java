@@ -3,6 +3,8 @@ package simulator;
 import java.util.Date;
 import java.util.PriorityQueue;
 
+import org.joda.time.DateTime;
+
 class CustomerQueue {
 
    // Formula to calculate priority
@@ -19,11 +21,21 @@ class CustomerQueue {
     return this.customerQueue.size();
   }
 
-  public void updatePriority(Date currentTime) {
+  public void updatePriority(DateTime currentTime) {
     for (Ticket e:this.customerQueue) {
-      double additionalPriority = (e.getTime() - currentTime.getTime()) * 1000 / 60;
+      double additionalPriority = 
+          (e.getTime().getMillis() - currentTime.getMillis()) * 1000 / 60;
       e.updatePriority(additionalPriority);
     }
   }
+  
+  public void joinQueue(CustomerGroup gp, DateTime dt) {
+    customerQueue.add(new Ticket(gp, dt));
+  }
 
+  public Ticket getNextTicket(DateTime currentTime) {
+    this.updatePriority(currentTime);
+    return customerQueue.poll();
+  }
+  
 }

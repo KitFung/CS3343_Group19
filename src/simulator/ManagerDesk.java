@@ -2,6 +2,8 @@ package simulator;
 
 import java.util.ArrayList;
 
+import org.joda.time.DateTime;
+
 public class ManagerDesk {
 
   CustomerQueue queue;
@@ -14,31 +16,23 @@ public class ManagerDesk {
     private static final ManagerDesk Instance = new ManagerDesk();
   }
 
-  public ManagerDesk getInstance() {
+  public static ManagerDesk getInstance() {
     return InstanceHolder.Instance;
   }
   
-  public void handleNewCustomerAction() {
-    
+  public void customerJoinQueue(CustomerGroup gp, DateTime dt) {
+	  queue.joinQueue(gp, dt);
+	  queue.updatePriority(dt);
   }
   
-  public void customerJoinQueue() {
-    
+  public boolean isAnyCustomer(){
+	  return queue.queueSize() > 0;
   }
-  
-  public void customerLeaveQueue() {
-    
-  }
-  
-  public boolean isAnyCustomer() {
-    return this.queue.queueSize() > 0;
-  }
-
 
   // if priority equal, the most fit group first
 
-  public CustomerGroup nextCustomer(ArrayList<Integer> size) {
-    return null;
+  public CustomerGroup nextCustomer(DateTime dt) {
+    return queue.getNextTicket(dt).getCustomerGroup();
   }
 
 }

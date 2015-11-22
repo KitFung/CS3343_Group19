@@ -28,6 +28,7 @@ public class CoeffStorage {
 				Integer value = entry.getValue();
 				System.out.println(key + " : " + value);
 			}
+			scanner.close();
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
