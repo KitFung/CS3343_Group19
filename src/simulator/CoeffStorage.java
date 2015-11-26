@@ -11,18 +11,24 @@ public class CoeffStorage {
   // Key-value hour=key
 
   /**
-   * Reading a list of key-value pairs.
-   * @param file = The input file that store the values.
+   * Read the key-value pair from the file.
+   * @param file = The target file.
+   * @throws IllegalArgumentException = The stored data is wrong/ not fit the requirement.
    */
-  public static void readFile(File file) {
+  @SuppressWarnings("resource")
+  public static void readFile(File file) throws IllegalArgumentException {
     try {
       //Todo : add exception checking for > 0 , < 24
       Scanner scanner = new Scanner(file);
       while (scanner.hasNext()) {
+        int key = scanner.nextInt();
+        int value = scanner.nextInt();
+        if (key > 24 || value > 100 || key < 0 || value < 0) {
+          throw new IllegalArgumentException();
+        }
         map.put(scanner.nextInt(), scanner.nextInt());
         //scanner.nextLine();
       }
-
       for (Map.Entry<Integer , Integer> entry : map.entrySet()) {
         Integer key = entry.getKey(); 
         Integer value = entry.getValue();
