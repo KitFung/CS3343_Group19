@@ -27,5 +27,7 @@ public class CustomerGroup {
     return this.state;
   }
   
-  
+  public void setState(CustomerStats newState) {
+    this.state = newState;
+  }
 }

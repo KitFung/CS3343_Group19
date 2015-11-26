@@ -1,14 +1,14 @@
 package simulator;
 
-import java.util.Date;
+import org.joda.time.DateTime;
 
 class Ticket implements Comparable<Ticket> {
   
   private CustomerGroup gp;
-  private Date time;
+  private DateTime time;
   private double priority;
 
-  Ticket(CustomerGroup defaultGroup, Date startTime) {
+  Ticket(CustomerGroup defaultGroup, DateTime startTime) {
     gp = defaultGroup;
     time = startTime;
     priority = 1;
@@ -18,12 +18,16 @@ class Ticket implements Comparable<Ticket> {
     return this.gp;
   }
   
-  public long getTime() {
-    return this.time.getTime();
+  public DateTime getTime() {
+    return this.time;
   }
   
   public double getPriority() {
     return this.priority;
+  }
+  
+  public CustomerGroup getCustomerGroup() {
+    return this.gp;
   }
   
   public void updatePriority(double newPriority) {

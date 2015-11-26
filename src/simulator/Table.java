@@ -90,7 +90,7 @@ public class Table {
    * @return the number of available size.
    */
   public int getAvailable() {
-    int avail = 0;
+    int avail = size - occupied;
     for (CustomerGroup customer : allCustomers) {
       if (customer.getState() instanceof StateWaitingFood) {
         avail += customer.getSize();

@@ -6,12 +6,14 @@ import java.util.ArrayList;
 
 public class Manager {
 
-  private EventScheduler es;
+  //  private EventScheduler es;
+  
+  private ManagerDesk md;
 
   private ArrayList<Table> allTables;
 
   public Manager() {
-    //es = EventScheduler.getInstance();
+    md = ManagerDesk.getInstance();
   }
 
   /**
@@ -21,9 +23,21 @@ public class Manager {
    */
 
   public void add( DateTime dt , CustomerGroup cg) {
-    es = EventScheduler.getInstance();
+    // es = EventScheduler.getInstance();
     DateTime dtNew = dt.plusMinutes(5);
+    md.customerJoinQueue(cg, dt);
     new CustomerWaitFoodEvent(dtNew , cg).addToScheduler();
+  }
+  
+  /**
+   * Assign seat if someone is queuing.
+   * @param dt = The current time.
+   * @param changeAllowed = Whether it allow change seat.
+   */
+  public void stateUpdate(DateTime dt, boolean changeAllowed) {
+    if (getRemainingSeats() > 0 && md.isAnyCustomer()) {
+      seatAssign(md.nextCustomer(dt), changeAllowed);
+    }
   }
   
   public ArrayList<Table> getAllTables() {
@@ -43,6 +57,18 @@ public class Manager {
   }
   
   /**
+   * Get current total remaining seat in each table.
+   * @return An array of integer.
+   */
+  public ArrayList<Integer> getRemainingSeatsInEachTable() {
+    ArrayList<Integer> totalRemain = new ArrayList<Integer>();
+    for (Table t : allTables) {
+      totalRemain.add(t.getAvailable());
+    }
+    return totalRemain;
+  }
+
+  /**
    * Assign seat to specific customer group.
    * @param customer - The CustomerGroup Object
    * @param changeAllowed - Whether it allow the manager to change the other customer seat.
@@ -51,11 +77,15 @@ public class Manager {
     if (changeAllowed) {
       Table table = SeatAssignAlgorithm.allowSeatChange(customer, allTables);
       if (table.getWaitingCustomers().size() > 0) {
+        // ArrayList<CustomerGroup> waitingCustomers = table.getWaitingCustomers();
+        table.clearTable();
+        table.add(customer);
         for (CustomerGroup c : table.getWaitingCustomers()) {
           seatAssign(c, false);
         }
+      } else {
+        table.add(customer);
       }
-      table.add(customer);
     } else {
       SeatAssignAlgorithm.noSeatChange(customer, allTables).add(customer);
     }

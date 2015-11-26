@@ -11,13 +11,17 @@ public class CoeffStorage {
 	// Key-value hour=key
 	
 	
-	public static void readFile(File file)
+	public static void readFile(File file) throws IllegalArgumentException
 	{
 		try {
 			//Todo : add exception checking for > 0 , < 24
 			Scanner scanner = new Scanner(file);
 			while(scanner.hasNext())
 			{
+			  int key = scanner.nextInt();
+			  int value = scanner.nextInt();
+			  if(key > 24 || value > 100 || key < 0 || value < 0)
+			    throw new IllegalArgumentException();
 				map.put(scanner.nextInt(), scanner.nextInt());
 				//scanner.nextLine();
 			}
@@ -28,10 +32,11 @@ public class CoeffStorage {
 				Integer value = entry.getValue();
 				System.out.println(key + " : " + value);
 			}
+			scanner.close();
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		}
+		} 
 	}
 	
 	public static int getCoeff(int hour)
