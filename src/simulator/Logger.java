@@ -18,7 +18,7 @@ public class Logger {
   /**
    * Creating Log and print log.
    */
-  public static void createLog(String msg) {
+  public static boolean createLog(String msg) {
     System.out.println(msg);
     
     log = new File(fileName + ".txt");
@@ -32,7 +32,7 @@ public class Logger {
     } catch (IOException e) {
       System.out.println("Could not log.");
     }
-    
+    return true;
   }
     
 }
