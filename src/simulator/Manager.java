@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Manager {
 
-  private EventScheduler es;
+  //  private EventScheduler es;
   
   private ManagerDesk md;
 
@@ -23,16 +23,21 @@ public class Manager {
    */
 
   public void add( DateTime dt , CustomerGroup cg) {
-    es = EventScheduler.getInstance();
+    // es = EventScheduler.getInstance();
     DateTime dtNew = dt.plusMinutes(5);
     md.customerJoinQueue(cg, dt);
     new CustomerWaitFoodEvent(dtNew , cg).addToScheduler();
   }
   
+  /**
+   * Assign seat if someone is queuing.
+   * @param dt = The current time.
+   * @param changeAllowed = Whether it allow change seat.
+   */
   public void stateUpdate(DateTime dt, boolean changeAllowed) {
-	  if(getRemainingSeats() > 0 && md.isAnyCustomer()) {
-		  seatAssign(md.nextCustomer(dt), changeAllowed);
-	    }
+    if (getRemainingSeats() > 0 && md.isAnyCustomer()) {
+      seatAssign(md.nextCustomer(dt), changeAllowed);
+    }
   }
   
   public ArrayList<Table> getAllTables() {
@@ -72,14 +77,14 @@ public class Manager {
     if (changeAllowed) {
       Table table = SeatAssignAlgorithm.allowSeatChange(customer, allTables);
       if (table.getWaitingCustomers().size() > 0) {
-		ArrayList<CustomerGroup> waitingCustomers = table.getWaitingCustomers();
-		table.clearTable();
-		table.add(customer);
-		for (CustomerGroup c : table.getWaitingCustomers()) {
-			seatAssign(c, false);
-		}
+        // ArrayList<CustomerGroup> waitingCustomers = table.getWaitingCustomers();
+        table.clearTable();
+        table.add(customer);
+        for (CustomerGroup c : table.getWaitingCustomers()) {
+          seatAssign(c, false);
+        }
       } else {
-    	  table.add(customer);
+        table.add(customer);
       }
     } else {
       SeatAssignAlgorithm.noSeatChange(customer, allTables).add(customer);

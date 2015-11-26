@@ -28,6 +28,6 @@ public class CustomerGroup {
   }
   
   public void setState(CustomerStats newState) {
-	  this.state = newState;
+    this.state = newState;
   }
 }

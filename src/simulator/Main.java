@@ -13,9 +13,9 @@ public class Main {
    * @param args It suppose don't have any argument.
    */
   public static void main(String[] args) {
-	  System.out.println(System.getProperty("user.dir"));
-	  File file = new File(FILE_NAME);
-	  CoeffStorage.readFile(file);
+    System.out.println(System.getProperty("user.dir"));
+    File file = new File(FILE_NAME);
+    CoeffStorage.readFile(file);
     EventScheduler es = EventScheduler.getInstance();
     es.generateArriveEvents();
     es.executeEvents();

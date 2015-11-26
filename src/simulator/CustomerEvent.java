@@ -4,31 +4,30 @@ import org.joda.time.DateTime;
 
 public abstract class CustomerEvent{
 
-	protected DateTime executeTime;
-	protected CustomerGroup cg;
-	protected EventScheduler es = EventScheduler.getInstance();
-	
-	public CustomerEvent(DateTime dt, CustomerGroup cg) {
-		executeTime = dt;
-		this.cg = cg;
-	}
+  protected DateTime executeTime;
+  protected CustomerGroup cg;
+  protected EventScheduler es = EventScheduler.getInstance();
 
-	public DateTime getExecuteTime() {
-		return executeTime;
-	}
+  public CustomerEvent(DateTime dt, CustomerGroup cg) {
+    executeTime = dt;
+    this.cg = cg;
+  }
 
-	abstract void execute();
+  public DateTime getExecuteTime() {
+    return executeTime;
+  }
 
-	public void addToScheduler() {
-		es.addEvent(this);
-		
-	}
-	
-	/**
-	 * Example return : "13:00 : Group#5 "
-	 **/
-	protected String getExecuteStatementHeader()
-	{
-		return String.format("%s : Group#%d (%d ppl)", executeTime.toString("HH:mm") , cg.getId() , cg.getSize());
-	}
+  abstract void execute();
+
+  public void addToScheduler() {
+    es.addEvent(this);
+  }
+
+  /**
+   * Example return : "13:00 : Group#5 ".
+   **/
+  protected String getExecuteStatementHeader() {
+    return String.format("%s : Group#%d (%d ppl)",
+        executeTime.toString("HH:mm") , cg.getId() , cg.getSize());
+  }
 }

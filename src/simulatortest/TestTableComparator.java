@@ -1,7 +1,5 @@
 package simulatortest;
 
-import java.util.ArrayList;
-
 import junit.framework.TestCase;
 
 import org.junit.Before;

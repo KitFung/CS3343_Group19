@@ -1,15 +1,17 @@
 package simulator;
 
-import java.util.Date;
+import org.joda.time.DateTime;
+
 import java.util.PriorityQueue;
 
-import org.joda.time.DateTime;
 
 class CustomerQueue {
 
-   // Formula to calculate priority
-   //  first condition: waited time / 60s
-   //   optional: level
+  /**
+   * Formula to calculate priority.
+   * first condition: waited time / 60s
+   * optional: level
+   */
 
   PriorityQueue<Ticket> customerQueue;
 

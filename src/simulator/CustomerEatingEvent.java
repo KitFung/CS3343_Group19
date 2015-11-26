@@ -2,6 +2,8 @@ package simulator;
 
 import org.joda.time.DateTime;
 
+import simulator.CustomerEvent;
+
 
 public class CustomerEatingEvent extends CustomerEvent {
 
@@ -12,7 +14,7 @@ public class CustomerEatingEvent extends CustomerEvent {
 
   @Override
   void execute() {
-	  System.out.format("%s is eating\n" , super.getExecuteStatementHeader());
+    System.out.format("%s is eating\n" , super.getExecuteStatementHeader());
     //cg.setState(new CustomerEating);
   }
 

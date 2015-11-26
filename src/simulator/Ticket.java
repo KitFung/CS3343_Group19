@@ -1,7 +1,5 @@
 package simulator;
 
-import java.util.Date;
-
 import org.joda.time.DateTime;
 
 class Ticket implements Comparable<Ticket> {

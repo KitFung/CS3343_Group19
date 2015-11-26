@@ -1,7 +1,5 @@
 package simulatortest;
 
-import java.util.ArrayList;
-
 import junit.framework.TestCase;
 import junitx.framework.ListAssert;
 
@@ -13,6 +11,9 @@ import simulator.StateEating;
 import simulator.StateInQueue;
 import simulator.StateWaitingFood;
 import simulator.Table;
+
+import java.util.ArrayList;
+
 
 public class TestTable extends TestCase {
   StateInQueue stateInQueue;

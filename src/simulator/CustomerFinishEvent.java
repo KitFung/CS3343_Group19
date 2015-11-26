@@ -13,7 +13,8 @@ public class CustomerFinishEvent extends CustomerEvent {
 
   @Override
   void execute() {
-	  System.out.format("%s finished eating\n" , super.getExecuteStatementHeader());
+    System.out.format("%s finished eating\n" ,
+        super.getExecuteStatementHeader());
     //cg.setState(new CustomerFinished());
   }
 

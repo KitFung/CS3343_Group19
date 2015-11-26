@@ -1,7 +1,5 @@
 package simulator;
 
-import java.util.ArrayList;
-
 import org.joda.time.DateTime;
 
 public class ManagerDesk {
@@ -21,12 +19,12 @@ public class ManagerDesk {
   }
   
   public void customerJoinQueue(CustomerGroup gp, DateTime dt) {
-	  queue.joinQueue(gp, dt);
-	  queue.updatePriority(dt);
+    queue.joinQueue(gp, dt);
+    queue.updatePriority(dt);
   }
   
-  public boolean isAnyCustomer(){
-	  return queue.queueSize() > 0;
+  public boolean isAnyCustomer() {
+    return queue.queueSize() > 0;
   }
 
   // if priority equal, the most fit group first
