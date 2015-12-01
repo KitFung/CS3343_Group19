@@ -2,13 +2,18 @@ package simulator;
 
 import org.joda.time.DateTime;
 
-class Ticket implements Comparable<Ticket> {
+public class Ticket implements Comparable<Ticket> {
   
   private CustomerGroup gp;
   private DateTime time;
   private double priority;
 
-  Ticket(CustomerGroup defaultGroup, DateTime startTime) {
+  /**
+   * One Ticket include one customerGroup with its extra information.
+   * @param defaultGroup = the group of customer own this ticket.
+   * @param startTime = The time that the customer get this ticket.
+   */
+  public Ticket(CustomerGroup defaultGroup, DateTime startTime) {
     gp = defaultGroup;
     time = startTime;
     priority = 1;
