@@ -18,7 +18,6 @@ public class CoeffStorage {
   @SuppressWarnings("resource")
   public static void readFile(File file) throws IllegalArgumentException {
     try {
-      //Todo : add exception checking for > 0 , < 24
       Scanner scanner = new Scanner(file);
       while (scanner.hasNext()) {
         int key = scanner.nextInt();
@@ -26,9 +25,10 @@ public class CoeffStorage {
         if (key > 24 || value > 100 || key < 0 || value < 0) {
           throw new IllegalArgumentException();
         }
-        map.put(key, value);
-        //scanner.nextLine();
+        System.out.println("Key read : " + key + " value : " + value);
+        map.put(key , value);
       }
+      System.out.println("size : " + map.size());
       for (Map.Entry<Integer , Integer> entry : map.entrySet()) {
         Integer key = entry.getKey(); 
         Integer value = entry.getValue();

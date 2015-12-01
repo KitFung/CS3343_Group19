@@ -2,7 +2,11 @@ package simulator;
 
 import org.joda.time.DateTime;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Scanner;
 
 public class Manager {
 
@@ -14,8 +18,25 @@ public class Manager {
 
   public Manager() {
     md = ManagerDesk.getInstance();
+    allTables = new ArrayList<Table>();
+    readTables();
   }
 
+  public void readTables()
+  {
+	    try {
+	    	File file = new File("Table.TXT");
+	        Scanner scanner = new Scanner(file);
+	        while (scanner.hasNext()) {
+	          Table t = new Table(scanner.nextInt());
+	          allTables.add(t);
+	        }
+	        scanner.close();
+	      } catch (FileNotFoundException e) {
+	        e.printStackTrace();
+	      }
+  }
+  
   /**
    * add event to event scheduler.
    * @param dt the time of the event occur.
