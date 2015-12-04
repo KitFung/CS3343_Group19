@@ -12,7 +12,8 @@ public class EventScheduler {
   private ArrayList<CustomerEvent> eventlist;
   DateTime dt = new DateTime(2015 , 10 , 15 , 0 , 0);
   private Manager manager;
-
+  
+  
   private static EventScheduler instance = new EventScheduler();
 
   public static EventScheduler getInstance() {
@@ -31,7 +32,7 @@ public class EventScheduler {
     while (eventlist.size() > 0) {
       eventlist.get(0).execute();
       eventlist.remove(0);
-      manager.stateUpdate(dt, false);
+      manager.stateUpdate(dt, true);
     }
   }
 
@@ -53,10 +54,47 @@ public class EventScheduler {
         DateTime jqeTime = dt.plusMinutes(RandomGenerator.getJoinQueueTime());
         CustomerGroup cg = new CustomerGroup(id, customersInGroup, new CustomerState("QUEUE"));
         CustomerJoinQueueEvent jqe = new CustomerJoinQueueEvent(jqeTime , cg , manager);
-        jqe.addToScheduler();
+        generateJoinQueueEvent(cg , jqeTime);
         id++;
       }
       dt = dt.plusHours(1);
     }
+  }
+  
+  public void generateJoinQueueEvent(CustomerGroup cg , DateTime executeTime)
+  {
+	  CustomerJoinQueueEvent jqe = new CustomerJoinQueueEvent(executeTime , cg , manager);
+	  addEvent(jqe);
+  }
+  
+  public void generateWaitFoodEvent(CustomerGroup cg , DateTime executeTime , Table table)
+  {
+	  CustomerWaitFoodEvent cwe = new CustomerWaitFoodEvent(executeTime , cg , table);
+	  addEvent(cwe);
+	  
+	  int waitTime = RandomGenerator.getWaitFoodTime();
+	  int eatTime = RandomGenerator.getEatingTime();
+	  DateTime dtEat = executeTime.plusMinutes(waitTime);
+	  DateTime dtFinish = dtEat.plusMinutes(eatTime);
+	    
+	  generateEatingEvent(cg, dtEat);
+	  generateLeaveEvent(cg, dtFinish, table);
+  }
+
+  public void generateEatingEvent(CustomerGroup cg , DateTime executeTime)
+  {
+	  CustomerEatingEvent cee = new CustomerEatingEvent(executeTime , cg);
+	  addEvent(cee);
+  }
+  
+  public void generateFinishEvent(CustomerGroup cg , DateTime executeTime , Table table)
+  {
+	  
+  }
+  
+  public void generateLeaveEvent(CustomerGroup cg , DateTime executeTime , Table table)
+  {
+	  CustomerLeaveEvent cle = new CustomerLeaveEvent(executeTime , cg , table);
+	  addEvent(cle);
   }
 }

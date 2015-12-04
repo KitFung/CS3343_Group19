@@ -5,7 +5,6 @@ import org.joda.time.DateTime;
 public class CustomerJoinQueueEvent extends CustomerEvent{
 
   Manager manager;
-  CustomerGroup cg;
   /**
    * The event when the customer join the queue.
    * 

@@ -19,10 +19,6 @@ public abstract class CustomerEvent{
 
   abstract void execute();
 
-  public void addToScheduler() {
-    es.addEvent(this);
-  }
-
   /**
    * Example return : "13:00 : Group#5 ".
    **/
