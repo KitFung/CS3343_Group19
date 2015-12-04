@@ -5,6 +5,7 @@ import org.joda.time.DateTime;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -96,19 +97,29 @@ public class Manager {
    */
   public void seatAssign(CustomerGroup customer, Boolean changeAllowed) {
     if (changeAllowed) {
-      Table table = SeatAssignAlgorithm.allowSeatChange(customer, allTables);
-      if (table.getWaitingCustomers().size() > 0) {
-        // ArrayList<CustomerGroup> waitingCustomers = table.getWaitingCustomers();
-        table.clearTable();
-        table.add(customer);
-        for (CustomerGroup c : table.getWaitingCustomers()) {
-          seatAssign(c, false);
-        }
-      } else {
-        table.add(customer);
-      }
+    	if (SeatAssignAdvance.query(customer, allTables)) {
+    		Table table = SeatAssignAdvance.assign(customer, allTables);
+    		ArrayList<CustomerGroup> currWaiting = table.getWaitingCustomers();
+    		Collections.sort(currWaiting, new CustomerGroupComparator());
+    		int remaining = table.getRemaining();
+    		for (CustomerGroup e : currWaiting) {
+    			if(e.getSize() + remaining >= customer.getSize()) {
+    				table.remove(e);
+    				customer.setState(new StateWaitingFood());
+    				seatAssign(e, false);
+    				return;
+    			}
+    		}
+    	} else {
+    		System.out.println("not enough seats");
+    	}
     } else {
-      SeatAssignAlgorithm.noSeatChange(customer, allTables).add(customer);
+    	if (SeatAssignDefault.query(customer, allTables)) {
+    		SeatAssignAdvance.assign(customer, allTables).add(customer);
+    		customer.setState(new StateWaitingFood());
+    	} else {
+    		System.out.println("not enough seats");
+    	}
     }
   }
   
