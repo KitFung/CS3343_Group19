@@ -32,4 +32,9 @@ public class CustomerState {
 	public State getState() {
 		return foo;
 	}
+	
+  @Override
+	  public String toString() {
+		  return foo.toString();
+	  }
 }

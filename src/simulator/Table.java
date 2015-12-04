@@ -90,12 +90,13 @@ public class Table {
    * @return the number of available size.
    */
   public int getAvailable() {
-    int avail = size - occupied;
+    int avail = 0;
     for (CustomerGroup customer : allCustomers) {
-      if (customer.getState().equals("WAITING")) {
+      if (customer.getState().toString().equals("WAITING")) {
         avail += customer.getSize();
       }
     }
+    avail += getRemaining();
     return avail;
   }
   
@@ -106,7 +107,7 @@ public class Table {
   public ArrayList<CustomerGroup> getWaitingCustomers() {
     ArrayList<CustomerGroup> availCustomers = new ArrayList<CustomerGroup>();
     for (CustomerGroup customer : allCustomers) {
-      if (customer.getState().equals("WAITING")) {
+      if (customer.getState().toString().equals("WAITING")) {
         availCustomers.add(customer);
       }
     }
