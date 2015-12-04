@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class Manager {
 
-  //  private EventScheduler es;
+  private EventScheduler es;
   
   private ManagerDesk md;
 
@@ -45,10 +45,10 @@ public class Manager {
    */
 
   public void add( DateTime dt , CustomerGroup cg) {
-    // es = EventScheduler.getInstance();
+    es = EventScheduler.getInstance();
     DateTime dtNew = dt.plusMinutes(5);
     md.customerJoinQueue(cg, dt);
-    new CustomerWaitFoodEvent(dtNew , cg).addToScheduler();
+    //es.generateWaitFoodEvent(cg,dtNew , table);
   }
   
   /**
@@ -58,8 +58,21 @@ public class Manager {
    */
   public void stateUpdate(DateTime dt, boolean changeAllowed) {
     if (getRemainingSeats() > 0 && md.isAnyCustomer()) {
-      seatAssign(md.nextCustomer(dt), changeAllowed);
+    	
+      CustomerGroup cg = md.nextCustomer(dt);
+      System.out.println("Time : " + dt.toString("HH:mm"));
+      //seatAssign(md.nextCustomer(dt), changeAllowed);
+      seatAssign(cg, changeAllowed);
       System.out.println(getRemainingSeats() + "  " + getAvailableSeats());
+      for(Table t : allTables)
+    	  System.out.println(t.getRemaining());
+      
+      Table table = seatAssign(cg , changeAllowed);
+      //if(table == null)
+    	  //table = seatAssign(cg , true);
+      //DateTime dtNew = dt.plusMinutes(5);
+      //if(table != null)
+      es.generateWaitFoodEvent(cg,dt , table);
     }
   }
   
