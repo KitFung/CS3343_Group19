@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import org.junit.Test;
 
 import simulator.CustomerGroup;
-import simulator.CustomerStats;
+import simulator.CustomerState;
 import simulator.StateEating;
 import simulator.StateInQueue;
 import simulator.StateWaitingFood;
@@ -41,20 +41,20 @@ public class TestCustomerGroup extends TestCase {
   //Test Constructor and getState()
   @Test
   public void test3() {
-    CustomerStats inQueue = new StateInQueue();
+    CustomerState inQueue = new StateInQueue();
     CustomerGroup customer = new CustomerGroup(1, 2, inQueue);
-    CustomerStats result = customer.getState();
+    CustomerState result = customer.getState();
     assertEquals(inQueue, result);
   }
 
   //Test Constructor, setState() and getState()
   @Test
   public void test4() {
-    CustomerStats inQueue = new StateInQueue();
-    CustomerStats waitingFood = new StateWaitingFood();
+    CustomerState inQueue = new StateInQueue();
+    CustomerState waitingFood = new StateWaitingFood();
     CustomerGroup customer = new CustomerGroup(1, 2, inQueue);
     customer.setState(waitingFood);
-    CustomerStats result = customer.getState();
+    CustomerState result = customer.getState();
     assertEquals(waitingFood, result);
   }
 

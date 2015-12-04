@@ -92,7 +92,7 @@ public class Table {
   public int getAvailable() {
     int avail = size - occupied;
     for (CustomerGroup customer : allCustomers) {
-      if (customer.getState() instanceof StateWaitingFood) {
+      if (customer.getState().equals("WAITING")) {
         avail += customer.getSize();
       }
     }
@@ -106,7 +106,7 @@ public class Table {
   public ArrayList<CustomerGroup> getWaitingCustomers() {
     ArrayList<CustomerGroup> availCustomers = new ArrayList<CustomerGroup>();
     for (CustomerGroup customer : allCustomers) {
-      if (customer.getState() instanceof StateWaitingFood) {
+      if (customer.getState().equals("WAITING")) {
         availCustomers.add(customer);
       }
     }

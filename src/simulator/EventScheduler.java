@@ -51,7 +51,7 @@ public class EventScheduler {
       for (int i = 0; i < totalCustomerInHour ; i++) {
         int customersInGroup = RandomGenerator.getCustomerInGroup();
         DateTime jqeTime = dt.plusMinutes(RandomGenerator.getJoinQueueTime());
-        CustomerGroup cg = new CustomerGroup(id, customersInGroup, new StateInQueue());
+        CustomerGroup cg = new CustomerGroup(id, customersInGroup, new CustomerState("QUEUE"));
         CustomerJoinQueueEvent jqe = new CustomerJoinQueueEvent(jqeTime , cg , manager);
         jqe.addToScheduler();
         id++;

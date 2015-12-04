@@ -59,6 +59,7 @@ public class Manager {
   public void stateUpdate(DateTime dt, boolean changeAllowed) {
     if (getRemainingSeats() > 0 && md.isAnyCustomer()) {
       seatAssign(md.nextCustomer(dt), changeAllowed);
+      System.out.println(getRemainingSeats() + "  " + getAvailableSeats());
     }
   }
   
@@ -73,10 +74,18 @@ public class Manager {
   public int getRemainingSeats() {
     int totalRemain = 0;
     for (Table t : allTables) {
-      totalRemain += t.getAvailable();
+      totalRemain += t.getRemaining();
     }
     return totalRemain;
   }
+  
+  public int getAvailableSeats() {
+	    int totalRemain = 0;
+	    for (Table t : allTables) {
+	      totalRemain += t.getAvailable();
+	    }
+	    return totalRemain;
+	  }
   
   /**
    * Get current total remaining seat in each table.
@@ -95,7 +104,8 @@ public class Manager {
    * @param customer - The CustomerGroup Object
    * @param changeAllowed - Whether it allow the manager to change the other customer seat.
    */
-  public void seatAssign(CustomerGroup customer, Boolean changeAllowed) {
+  public Table seatAssign(CustomerGroup customer, Boolean changeAllowed) {
+	  System.out.printf("Assign %s\n", changeAllowed ? "ADVANCE" : "DEFAULT");
     if (changeAllowed) {
     	if (SeatAssignAdvance.query(customer, allTables)) {
     		Table table = SeatAssignAdvance.assign(customer, allTables);
@@ -105,9 +115,11 @@ public class Manager {
     		for (CustomerGroup e : currWaiting) {
     			if(e.getSize() + remaining >= customer.getSize()) {
     				table.remove(e);
-    				customer.setState(new StateWaitingFood());
+    				int i = table.add(customer);
+    				customer.setState(new CustomerState("WAITING"));
     				seatAssign(e, false);
-    				return;
+    				if (i == 0) System.out.printf("ADVANCE Customer added to table, %d, %d\n", getRemainingSeats(), getAvailableSeats());
+    				return table;
     			}
     		}
     	} else {
@@ -115,12 +127,16 @@ public class Manager {
     	}
     } else {
     	if (SeatAssignDefault.query(customer, allTables)) {
-    		SeatAssignAdvance.assign(customer, allTables).add(customer);
-    		customer.setState(new StateWaitingFood());
+    		Table table = SeatAssignAdvance.assign(customer, allTables);
+    		int i = table.add(customer);
+    		customer.setState(new CustomerState("WAITING"));
+    		if (i == 0) System.out.printf("DEFAULT Customer added to table, %d, %d\n", getRemainingSeats(), getAvailableSeats());
+    		return table;
     	} else {
     		System.out.println("not enough seats");
     	}
     }
+    return null;
   }
   
   public void seatRelease(CustomerGroup customer, Table table) {
