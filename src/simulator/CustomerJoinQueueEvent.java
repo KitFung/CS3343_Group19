@@ -5,7 +5,6 @@ import org.joda.time.DateTime;
 public class CustomerJoinQueueEvent extends CustomerEvent{
 
   Manager manager;
-  CustomerGroup cg;
   /**
    * The event when the customer join the queue.
    * 
@@ -21,7 +20,8 @@ public class CustomerJoinQueueEvent extends CustomerEvent{
 
   @Override
   void execute() {
-    System.out.format("%s Joins the queue\n" , super.getExecuteStatementHeader());
+    //System.out.format("%s Joins the queue\n" , super.getExecuteStatementHeader());
+    Logger.createLog(String.format("%s Joins the queue\n" , super.getExecuteStatementHeader()));
     //queueManger.add(super.cg);
     manager.add(super.executeTime, super.cg);
   }

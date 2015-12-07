@@ -5,17 +5,18 @@ import org.joda.time.DateTime;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Scanner;
 
 public class Manager {
 
-  //  private EventScheduler es;
+  private EventScheduler es;
   
   private ManagerDesk md;
 
   private ArrayList<Table> allTables;
-
+  
   public Manager() {
     md = ManagerDesk.getInstance();
     allTables = new ArrayList<Table>();
@@ -44,10 +45,10 @@ public class Manager {
    */
 
   public void add( DateTime dt , CustomerGroup cg) {
-    // es = EventScheduler.getInstance();
+    es = EventScheduler.getInstance();
     DateTime dtNew = dt.plusMinutes(5);
     md.customerJoinQueue(cg, dt);
-    new CustomerWaitFoodEvent(dtNew , cg).addToScheduler();
+    //es.generateWaitFoodEvent(cg,dtNew , table);
   }
   
   /**
@@ -57,7 +58,27 @@ public class Manager {
    */
   public void stateUpdate(DateTime dt, boolean changeAllowed) {
     if (getRemainingSeats() > 0 && md.isAnyCustomer()) {
-      seatAssign(md.nextCustomer(dt), changeAllowed);
+    	
+      CustomerGroup cg = md.nextCustomer(dt);
+      Table table = seatAssign(cg , changeAllowed);
+      //System.out.println("Time : " + dt.toString("HH:mm"));
+      //seatAssign(md.nextCustomer(dt), changeAllowed);
+      //seatAssign(cg, changeAllowed);
+      //System.out.println(getRemainingSeats() + "  " + getAvailableSeats());
+      //for(Table t : allTables)
+    //	  System.out.println(t.getRemaining());
+      
+      
+      if(table == null)
+    	  table = seatAssign(cg , true);
+      //DateTime dtNew = dt.plusMinutes(5);
+      if(table != null)
+      {
+    	  System.out.println(getRemainingSeats() + "  " + getAvailableSeats());
+    	  Logger.createLog("Group#" + cg.getId() + "is assigned to Table#" + table.getID());
+    	  es.generateWaitFoodEvent(cg,dt , table);
+    	  printTableUsage();
+      }
     }
   }
   
@@ -72,10 +93,18 @@ public class Manager {
   public int getRemainingSeats() {
     int totalRemain = 0;
     for (Table t : allTables) {
-      totalRemain += t.getAvailable();
+      totalRemain += t.getRemaining();
     }
     return totalRemain;
   }
+  
+  public int getAvailableSeats() {
+	    int totalRemain = 0;
+	    for (Table t : allTables) {
+	      totalRemain += t.getAvailable();
+	    }
+	    return totalRemain;
+	  }
   
   /**
    * Get current total remaining seat in each table.
@@ -94,22 +123,39 @@ public class Manager {
    * @param customer - The CustomerGroup Object
    * @param changeAllowed - Whether it allow the manager to change the other customer seat.
    */
-  public void seatAssign(CustomerGroup customer, Boolean changeAllowed) {
+  public Table seatAssign(CustomerGroup customer, Boolean changeAllowed) {
+	  System.out.printf("Assign %s\n", changeAllowed ? "ADVANCE" : "DEFAULT");
     if (changeAllowed) {
-      Table table = SeatAssignAlgorithm.allowSeatChange(customer, allTables);
-      if (table.getWaitingCustomers().size() > 0) {
-        // ArrayList<CustomerGroup> waitingCustomers = table.getWaitingCustomers();
-        table.clearTable();
-        table.add(customer);
-        for (CustomerGroup c : table.getWaitingCustomers()) {
-          seatAssign(c, false);
-        }
-      } else {
-        table.add(customer);
-      }
+    	if (SeatAssignAdvance.query(customer, allTables)) {
+    		Table table = SeatAssignAdvance.assign(customer, allTables);
+    		ArrayList<CustomerGroup> currWaiting = table.getWaitingCustomers();
+    		Collections.sort(currWaiting, new CustomerGroupComparator());
+    		int remaining = table.getRemaining();
+    		for (CustomerGroup e : currWaiting) {
+    			if(e.getSize() + remaining >= customer.getSize()) {
+    				table.remove(e);
+    				int i = table.add(customer);
+    				customer.setState(new CustomerState("WAITING"));
+    				seatAssign(e, false);
+    				if (i == 0) System.out.printf("ADVANCE Customer added to table, %d, %d\n", getRemainingSeats(), getAvailableSeats());
+    				return table;
+    			}
+    		}
+    	} else {
+    		System.out.println("not enough seats");
+    	}
     } else {
-      SeatAssignAlgorithm.noSeatChange(customer, allTables).add(customer);
+    	if (SeatAssignDefault.query(customer, allTables)) {
+    		Table table = SeatAssignAdvance.assign(customer, allTables);
+    		int i = table.add(customer);
+    		customer.setState(new CustomerState("WAITING"));
+    		if (i == 0) System.out.printf("DEFAULT Customer added to table, %d, %d\n", getRemainingSeats(), getAvailableSeats());
+    		return table;
+    	} else {
+    		System.out.println("not enough seats");
+    	}
     }
+    return null;
   }
   
   public void seatRelease(CustomerGroup customer, Table table) {
@@ -131,4 +177,22 @@ public class Manager {
     
     return allCustomerGroups;
   }
+  
+  @SuppressWarnings("unchecked")
+public void printTableUsage()
+  {
+	  ArrayList<Table> sortedTables = (ArrayList<Table>) allTables.clone();
+	  Collections.sort(sortedTables , new TableSizeComparator());
+	  Logger.createLog("======= Table usage : ==========");
+	  Logger.createLog(String.format("Total Seats remaining : %d", getRemainingSeats()));
+	  for (Table t : sortedTables) {
+		  String log = "";
+		  log += String.format("Table#%d (size %d , remain %d) : ", t.getID() , t.getSize() , t.getRemaining());
+		  for(CustomerGroup gp : t.getAllCustomers())
+			  log += String.format("[%s]Group#%d (%d ppl) , ",gp.getState(), gp.getId() ,  gp.getSize());
+		  Logger.createLog(log);
+	  }
+	  Logger.createLog("==============================");
+  }
+  
 }

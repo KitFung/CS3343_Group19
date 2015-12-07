@@ -5,15 +5,17 @@ import org.joda.time.DateTime;
 
 public class CustomerLeaveEvent extends CustomerEvent{
 
-  public CustomerLeaveEvent(DateTime dt , CustomerGroup cg) {
+	Table t;
+	
+  public CustomerLeaveEvent(DateTime dt , CustomerGroup cg , Table table) {
     super(dt , cg);
-    // TODO Auto-generated constructor stub
+    t = table;
   }
 
   @Override
   void execute() {
-    System.out.format("%s leaves the restaurant" , super.getExecuteStatementHeader());
-    //call the manager to free the desks
+    Logger.createLog(String.format("%s (Table#%d)Finishes meal and leaves\n" , super.getExecuteStatementHeader() , t.getID()));
+    t.remove(cg);
   }
 
 }

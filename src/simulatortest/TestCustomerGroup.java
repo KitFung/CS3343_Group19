@@ -5,10 +5,8 @@ import junit.framework.TestCase;
 import org.junit.Test;
 
 import simulator.CustomerGroup;
-import simulator.CustomerStats;
-import simulator.StateEating;
-import simulator.StateInQueue;
-import simulator.StateWaitingFood;
+import simulator.CustomerState;
+import simulator.CustomerState.State;
 
 
 public class TestCustomerGroup extends TestCase {
@@ -25,7 +23,7 @@ public class TestCustomerGroup extends TestCase {
   //Test Constructor and getSize()
   @Test
   public void test1() {
-    CustomerGroup customer = new CustomerGroup(1, 2, new StateEating());
+    CustomerGroup customer = new CustomerGroup(1, 2, new CustomerState("EATING"));
     int result = customer.getSize();
     assertEquals(2, result);
   }
@@ -33,7 +31,7 @@ public class TestCustomerGroup extends TestCase {
   //Test Constructor and getId()
   @Test
   public void test2() {
-    CustomerGroup customer = new CustomerGroup(1, 2, new StateWaitingFood());
+    CustomerGroup customer = new CustomerGroup(1, 2, new CustomerState("WAITING"));
     int result = customer.getId();
     assertEquals(1, result);
   }
@@ -41,20 +39,20 @@ public class TestCustomerGroup extends TestCase {
   //Test Constructor and getState()
   @Test
   public void test3() {
-    CustomerStats inQueue = new StateInQueue();
+    CustomerState inQueue = new CustomerState("QUEUE");
     CustomerGroup customer = new CustomerGroup(1, 2, inQueue);
-    CustomerStats result = customer.getState();
+    State result = customer.getState();
     assertEquals(inQueue, result);
   }
 
   //Test Constructor, setState() and getState()
   @Test
   public void test4() {
-    CustomerStats inQueue = new StateInQueue();
-    CustomerStats waitingFood = new StateWaitingFood();
+    CustomerState inQueue = new CustomerState("QUEUE");
+    CustomerState waitingFood = new CustomerState("WAITING");
     CustomerGroup customer = new CustomerGroup(1, 2, inQueue);
     customer.setState(waitingFood);
-    CustomerStats result = customer.getState();
+    State result = customer.getState();
     assertEquals(waitingFood, result);
   }
 

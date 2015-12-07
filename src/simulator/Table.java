@@ -20,7 +20,9 @@ import java.util.ArrayList;
 public class Table {
 
   private static final int[] availTableSize = {2, 4, 8};
+  private static int count = 1;
   
+  private int id;
   private int size;
   private int occupied;
   private ArrayList<CustomerGroup> allCustomers;
@@ -35,6 +37,8 @@ public class Table {
       this.size = size;
       allCustomers = new ArrayList<CustomerGroup>();
       occupied = 0;
+      id = count;
+      count++;
     } else {
       throw new IllegalArgumentException("Invalid table size");
     }
@@ -90,12 +94,13 @@ public class Table {
    * @return the number of available size.
    */
   public int getAvailable() {
-    int avail = size - occupied;
+    int avail = 0;
     for (CustomerGroup customer : allCustomers) {
-      if (customer.getState() instanceof StateWaitingFood) {
+      if (customer.getState().toString().equals("WAITING")) {
         avail += customer.getSize();
       }
     }
+    avail += getRemaining();
     return avail;
   }
   
@@ -106,7 +111,7 @@ public class Table {
   public ArrayList<CustomerGroup> getWaitingCustomers() {
     ArrayList<CustomerGroup> availCustomers = new ArrayList<CustomerGroup>();
     for (CustomerGroup customer : allCustomers) {
-      if (customer.getState() instanceof StateWaitingFood) {
+      if (customer.getState().toString().equals("WAITING")) {
         availCustomers.add(customer);
       }
     }
@@ -115,5 +120,15 @@ public class Table {
   
   public void clearTable() {
     allCustomers.clear();
+  }
+  
+  public int getID()
+  {
+	  return id;
+  }
+  
+  public ArrayList<CustomerGroup> getAllCustomers()
+  {
+	  return allCustomers;
   }
 }

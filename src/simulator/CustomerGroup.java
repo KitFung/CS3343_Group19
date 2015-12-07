@@ -1,15 +1,17 @@
 package simulator;
 
+import simulator.CustomerState.State;
+
 
 public class CustomerGroup {
   private int id;
   private int number;
-  private CustomerStats state;
+  private CustomerState state;
   
   /**
    * Constructor.
    */
-  public CustomerGroup(int aaId, int aaNumber, CustomerStats aaState) {
+  public CustomerGroup(int aaId, int aaNumber, CustomerState aaState) {
     this.id = aaId;
     this.number = aaNumber;
     this.state = aaState;
@@ -23,11 +25,11 @@ public class CustomerGroup {
     return this.id;
   }
   
-  public CustomerStats  getState() {
-    return this.state;
+  public State getState() {
+    return this.state.getState();
   }
   
-  public void setState(CustomerStats newState) {
+  public void setState(CustomerState newState) {
     this.state = newState;
   }
 }
