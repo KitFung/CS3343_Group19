@@ -27,9 +27,7 @@ public class CoeffStorage {
         }
         System.out.println("Key read : " + key + " value : " + value);
         map.put(key , value);
-        //scanner.nextLine();
       }
-      System.out.println("size : " + map.size());
       for (Map.Entry<Integer , Integer> entry : map.entrySet()) {
         Integer key = entry.getKey(); 
         Integer value = entry.getValue();
