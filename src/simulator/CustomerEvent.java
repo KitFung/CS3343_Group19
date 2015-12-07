@@ -6,7 +6,6 @@ public abstract class CustomerEvent{
 
   protected DateTime executeTime;
   protected CustomerGroup cg;
-  protected EventScheduler es = EventScheduler.getInstance();
 
   public CustomerEvent(DateTime dt, CustomerGroup cg) {
     executeTime = dt;

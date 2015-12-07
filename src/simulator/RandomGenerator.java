@@ -14,6 +14,11 @@ public class RandomGenerator {
   //int randomNum = rand.nextInt((max - min) + 1) + min;
 
   static Random rnd = new Random();
+  
+  public static void setSeed(int seed)
+  {
+	  rnd = new Random(seed);
+  }
 
   public static int getWaitFoodTime() {
     return rnd.nextInt(MAX_WAIT_FOOD_MIN - MIN_WAIT_FOOD_MIN + 1) + MIN_WAIT_FOOD_MIN;

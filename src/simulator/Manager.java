@@ -16,7 +16,7 @@ public class Manager {
   private ManagerDesk md;
 
   private ArrayList<Table> allTables;
-
+  
   public Manager() {
     md = ManagerDesk.getInstance();
     allTables = new ArrayList<Table>();
@@ -60,19 +60,25 @@ public class Manager {
     if (getRemainingSeats() > 0 && md.isAnyCustomer()) {
     	
       CustomerGroup cg = md.nextCustomer(dt);
-      System.out.println("Time : " + dt.toString("HH:mm"));
-      //seatAssign(md.nextCustomer(dt), changeAllowed);
-      seatAssign(cg, changeAllowed);
-      System.out.println(getRemainingSeats() + "  " + getAvailableSeats());
-      for(Table t : allTables)
-    	  System.out.println(t.getRemaining());
-      
       Table table = seatAssign(cg , changeAllowed);
-      //if(table == null)
-    	  //table = seatAssign(cg , true);
+      //System.out.println("Time : " + dt.toString("HH:mm"));
+      //seatAssign(md.nextCustomer(dt), changeAllowed);
+      //seatAssign(cg, changeAllowed);
+      //System.out.println(getRemainingSeats() + "  " + getAvailableSeats());
+      //for(Table t : allTables)
+    //	  System.out.println(t.getRemaining());
+      
+      
+      if(table == null)
+    	  table = seatAssign(cg , true);
       //DateTime dtNew = dt.plusMinutes(5);
-      //if(table != null)
-      es.generateWaitFoodEvent(cg,dt , table);
+      if(table != null)
+      {
+    	  System.out.println(getRemainingSeats() + "  " + getAvailableSeats());
+    	  Logger.createLog("Group#" + cg.getId() + "is assigned to Table#" + table.getID());
+    	  es.generateWaitFoodEvent(cg,dt , table);
+    	  printTableUsage();
+      }
     }
   }
   
@@ -171,4 +177,22 @@ public class Manager {
     
     return allCustomerGroups;
   }
+  
+  @SuppressWarnings("unchecked")
+public void printTableUsage()
+  {
+	  ArrayList<Table> sortedTables = (ArrayList<Table>) allTables.clone();
+	  Collections.sort(sortedTables , new TableSizeComparator());
+	  Logger.createLog("======= Table usage : ==========");
+	  Logger.createLog(String.format("Total Seats remaining : %d", getRemainingSeats()));
+	  for (Table t : sortedTables) {
+		  String log = "";
+		  log += String.format("Table#%d (size %d , remain %d) : ", t.getID() , t.getSize() , t.getRemaining());
+		  for(CustomerGroup gp : t.getAllCustomers())
+			  log += String.format("[%s]Group#%d (%d ppl) , ",gp.getState(), gp.getId() ,  gp.getSize());
+		  Logger.createLog(log);
+	  }
+	  Logger.createLog("==============================");
+  }
+  
 }

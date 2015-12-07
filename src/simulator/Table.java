@@ -20,7 +20,9 @@ import java.util.ArrayList;
 public class Table {
 
   private static final int[] availTableSize = {2, 4, 8};
+  private static int count = 1;
   
+  private int id;
   private int size;
   private int occupied;
   private ArrayList<CustomerGroup> allCustomers;
@@ -35,6 +37,8 @@ public class Table {
       this.size = size;
       allCustomers = new ArrayList<CustomerGroup>();
       occupied = 0;
+      id = count;
+      count++;
     } else {
       throw new IllegalArgumentException("Invalid table size");
     }
@@ -116,5 +120,15 @@ public class Table {
   
   public void clearTable() {
     allCustomers.clear();
+  }
+  
+  public int getID()
+  {
+	  return id;
+  }
+  
+  public ArrayList<CustomerGroup> getAllCustomers()
+  {
+	  return allCustomers;
   }
 }

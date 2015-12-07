@@ -14,7 +14,7 @@ public class CustomerLeaveEvent extends CustomerEvent{
 
   @Override
   void execute() {
-    System.out.format("%s Finishes meal and leaves the restaurant" , super.getExecuteStatementHeader());
+    Logger.createLog(String.format("%s (Table#%d)Finishes meal and leaves\n" , super.getExecuteStatementHeader() , t.getID()));
     t.remove(cg);
   }
 

@@ -14,7 +14,9 @@ public class CustomerEatingEvent extends CustomerEvent {
 
   @Override
   void execute() {
-    System.out.format("%s is eating\n" , super.getExecuteStatementHeader());
+	  cg.setState(new CustomerState("EATING"));
+	  Logger.createLog(String.format("%s is having meal\n" , super.getExecuteStatementHeader()));
+    //System.out.format("%s is having meal\n" , super.getExecuteStatementHeader());
     //cg.setState(new CustomerEating);
   }
 

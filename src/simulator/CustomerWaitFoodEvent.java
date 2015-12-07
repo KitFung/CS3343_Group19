@@ -10,15 +10,15 @@ public class CustomerWaitFoodEvent extends CustomerEvent{
   
   public CustomerWaitFoodEvent(DateTime dt , CustomerGroup cg , Table table) {
     super(dt, cg);
-    tableNo = table.getSize();
+    tableNo = table.getID();
     t = table;
   }
 
   @Override
   void execute() {
-    //cg.setState(new CustomerWaitingFood());
-    System.out.format("%s sits in table#%d , waiting for food\n" , 
-        super.getExecuteStatementHeader() , tableNo);
+    cg.setState(new CustomerState("WAITING"));
+    String log = String.format("%s sits in table#%d , waiting for food\n" , super.getExecuteStatementHeader() , tableNo);
+    Logger.createLog(log);
   }
 
 }
