@@ -42,7 +42,7 @@ public class TestCustomerGroup extends TestCase {
     CustomerState inQueue = new CustomerState("QUEUE");
     CustomerGroup customer = new CustomerGroup(1, 2, inQueue);
     State result = customer.getState();
-    assertEquals(inQueue, result);
+    assertEquals(inQueue.getState(), result);
   }
 
   //Test Constructor, setState() and getState()
@@ -53,7 +53,7 @@ public class TestCustomerGroup extends TestCase {
     CustomerGroup customer = new CustomerGroup(1, 2, inQueue);
     customer.setState(waitingFood);
     State result = customer.getState();
-    assertEquals(waitingFood, result);
+    assertEquals(waitingFood.getState(), result);
   }
 
 }
