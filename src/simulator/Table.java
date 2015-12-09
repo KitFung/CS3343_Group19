@@ -4,19 +4,6 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.ArrayList;
 
-//enum Tablesize{
-//  TWO(2),
-//  FOUR(4),
-//  EIGHT(8);
-//  
-//  private int size;
-//  
-//  private Tablesize(int size)
-//  {
-//    this.size=size;
-//  }
-//}
-
 public class Table {
 
   private static final int[] availTableSize = {2, 4, 8};
@@ -66,13 +53,9 @@ public class Table {
    */
   public int remove(CustomerGroup customer) {
     if (allCustomers.contains(customer)) {
-      if (customer.getSize() > occupied) {
-        return 1;
-      } else {
         occupied -= customer.getSize();
         allCustomers.remove(customer);
         return 0;
-      }
     }
     return 1;
   }

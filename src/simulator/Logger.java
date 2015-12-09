@@ -4,26 +4,22 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import org.joda.time.DateTime;
 
 public class Logger {
   
-  private static String fileName;
+  private final static String FILENAME = "log";
   static File log;
-  
-  public Logger(String fn) {
-    fileName = fn;
-    
-  }
-  
+
   /**
    * Creating Log and print log.
    */
   public static boolean createLog(String msg) {
     System.out.println(msg);
     
-    log = new File(fileName + ".txt");
+    log = new File(FILENAME + ".txt");
     try {
-      if (log.exists() == false) {
+      if (!log.exists()) {
         log.createNewFile();
       }
       PrintWriter out = new PrintWriter(new FileWriter(log, true));

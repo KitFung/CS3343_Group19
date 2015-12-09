@@ -12,11 +12,6 @@ public class TestLogger extends TestCase {
   @Override
   public void setUp() {}
 
-  public void testConstructor() {
-    Logger logger = new Logger("logger");
-    assertNotNull(logger);
-  }
-
   public void testCreateLog() {  
     boolean result = Logger.createLog("test");  
     assertEquals(result, true);
