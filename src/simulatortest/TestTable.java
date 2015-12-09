@@ -1,6 +1,7 @@
 package simulatortest;
 
 import junit.framework.TestCase;
+import junitx.framework.ListAssert;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +12,6 @@ import simulator.Table;
 
 import java.util.ArrayList;
 
-/*
 
 public class TestTable extends TestCase {
   ArrayList<CustomerGroup> expected;
@@ -131,4 +131,4 @@ public class TestTable extends TestCase {
     actual = table.getWaitingCustomers();
     ListAssert.assertEquals(expected, actual);
   }
-}*/
+}
