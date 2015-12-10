@@ -19,6 +19,7 @@ public class Manager {
   
   public Manager() {
     md = ManagerDesk.getInstance();
+    es = EventScheduler.getInstance();
     allTables = new ArrayList<Table>();
     readTables();
   }
@@ -45,10 +46,7 @@ public class Manager {
    */
 
   public void add( DateTime dt , CustomerGroup cg) {
-    es = EventScheduler.getInstance();
-    DateTime dtNew = dt.plusMinutes(5);
     md.customerJoinQueue(cg, dt);
-    //es.generateWaitFoodEvent(cg,dtNew , table);
   }
   
   /**

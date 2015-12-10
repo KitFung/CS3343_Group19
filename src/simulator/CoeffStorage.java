@@ -18,16 +18,21 @@ public class CoeffStorage {
   @SuppressWarnings("resource")
   public static void readFile(File file) throws IllegalArgumentException {
     try {
+    	int totalLine = 0;
       Scanner scanner = new Scanner(file);
-      while (scanner.hasNext()) {
+      while (scanner.hasNext() & totalLine < 24) {
+    	  totalLine++;
         int key = scanner.nextInt();
         int value = scanner.nextInt();
         if (key > 24 || value > 100 || key < 0 || value < 0) {
-          throw new IllegalArgumentException();
+          throw new IllegalArgumentException("Key or Value Out of range");
         }
         System.out.println("Key read : " + key + " value : " + value);
         map.put(key , value);
       }
+      
+      if (totalLine != 24)
+    	  throw new IllegalArgumentException("Missing or too many key-value pair");
       
       scanner.close();
     } catch (FileNotFoundException e) {

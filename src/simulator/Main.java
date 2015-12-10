@@ -14,8 +14,10 @@ public class Main {
    */
   public static void main(String[] args) {
 	  RandomGenerator.setSeed(3343);
+	  
     File file = new File(FILE_NAME);
     CoeffStorage.readFile(file);
+    Logger.init(LocalTime.now().toString("HH_mm_ss"));
     
     EventScheduler es = EventScheduler.getInstance();
     Logger.createLog("--------------New Day Begin " + LocalTime.now().toDateTimeToday().toString("dd-MMMM") + "----------------");

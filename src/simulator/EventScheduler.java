@@ -3,6 +3,7 @@ package simulator;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.Minutes;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,6 +18,9 @@ public class EventScheduler {
   private Manager manager;
   private Map<Integer , Integer> customerServed;	//hour-value pair
   private Map<Integer , Integer> customerGroupServed;	//hour-value pair
+  private Map<Integer , Integer> waitTime; 			//hour-value pair
+  private Map<Integer , Integer> customerInQueue;
+  
   
   private static EventScheduler instance = new EventScheduler();
 
@@ -29,6 +33,18 @@ public class EventScheduler {
     manager = new Manager();
     customerGroupServed = new HashMap<Integer , Integer>();
     customerServed = new HashMap<Integer , Integer>();
+    waitTime = new HashMap<Integer , Integer>();
+    customerInQueue = new HashMap<Integer , Integer>();
+    
+    for(int i = 0 ; i < 24 ; i ++)
+    {
+    	waitTime.put(i, 0);
+    	customerInQueue.put(i, 0);
+    	customerServed.put(i , 0);
+    	customerGroupServed.put(i,0);
+    	customerInQueue.put(i,0);
+    	
+    }
   }
 
   /**
@@ -48,10 +64,12 @@ public class EventScheduler {
     	{
     		if(customerGroupServed.get(hour) > 0)
     			Logger.createLog(String.format("Customers served in %d:00 = %d", hour , customerServed.get(hour)));
+    		
+    		customerInQueue.put(hour, ManagerDesk.getInstance().getCustomerInQueue());    		
     		hour = executeHour;
     		Logger.createLog("-------" + hour + ":00 -------");
+    		Logger.createLog("Number of customerGroups in queue : " + ManagerDesk.getInstance().getCustomerInQueue());
     	}
-    	
     	ce.execute();
     	eventlist.remove(0);
     	manager.stateUpdate(executeTime, false);
@@ -60,18 +78,37 @@ public class EventScheduler {
     printDayEndEventReport();
   }
 
-  public void printDayEndEventReport()
+  private void printDayEndEventReport()
   {
-	  int total = 0 , totalGroup = 0;
+	  int total = 0 , totalGroup = 0 , totalWaitTime = 0;
+	  float overallAvgWaitTime;
 	  Logger.createLog("=================End of the Day==================");
 	  Logger.createLog("--------DayEnd Report---------");
 	  for(int i = 0 ; i < 24 ; i++)
 	  {
-		  total += customerServed.get(i);
-		  totalGroup += customerGroupServed.get(i);
+		  int c = customerServed.get(i);
+		  if(c > 0)
+		  {
+			  int cg = customerGroupServed.get(i);
+			  int t = waitTime.get(i);
+			  float average;
+			  
+			  total += c;
+			  totalGroup += cg;
+			  totalWaitTime += t;
+			  average = cg == 0 ? 0 : (float)t/cg;
+
+			  Logger.createLog(String.format("average queuing time at %d:00 = %f minutes" , i , average));
+		  }
+		  
+		  if(customerInQueue.get(i) > 0)
+			  Logger.createLog(String.format("Number of customers in queue at %d:00 = %d" , i , customerInQueue.get(i)));
 	  }
+	  overallAvgWaitTime = (float) totalWaitTime / totalGroup;
+	  
 	  Logger.createLog("Total CustomerGroup Served : " + totalGroup);
 	  Logger.createLog("Total Customer Served : " + total);
+	  Logger.createLog("Overall queuing time : " + overallAvgWaitTime + " minutes");
   }
   
   
@@ -108,18 +145,12 @@ public class EventScheduler {
       dt = dt.plusHours(1);
     }
   }
-  
-  /*
-   *   protected String getExecuteStatementHeader() {
-    return String.format("%s : Group#%d (%d ppl)",
-        executeTime.toString("HH:mm") , cg.getId() , cg.getSize());
-  }
-   */
-  
+
   public void generateJoinQueueEvent(CustomerGroup cg , DateTime executeTime)
   {
 	  CustomerJoinQueueEvent jqe = new CustomerJoinQueueEvent(executeTime , cg , manager);
 	  addEvent(jqe);
+	  cg.setJoinQueueTime(executeTime);
   }
   
   public void generateWaitFoodEvent(CustomerGroup cg , DateTime executeTime , Table table)
@@ -134,6 +165,7 @@ public class EventScheduler {
 	    
 	  generateEatingEvent(cg, dtEat);
 	  generateLeaveEvent(cg, dtFinish, table);
+	  extractWaitTimeInQueue(cg.getJoinQueueTime() , executeTime);
   }
 
   public void generateEatingEvent(CustomerGroup cg , DateTime executeTime)
@@ -142,14 +174,22 @@ public class EventScheduler {
 	  addEvent(cee);
   }
   
-  public void generateFinishEvent(CustomerGroup cg , DateTime executeTime , Table table)
-  {
-	  
-  }
-  
   public void generateLeaveEvent(CustomerGroup cg , DateTime executeTime , Table table)
   {
 	  CustomerLeaveEvent cle = new CustomerLeaveEvent(executeTime , cg , table);
 	  addEvent(cle);
+  }
+  
+  private void extractWaitTimeInQueue(DateTime start , DateTime end)
+  {
+	  System.out.println(start.toString() + " ; " + end.toString());
+	  
+	  Integer hour = start.getHourOfDay();
+	  Integer diff = waitTime.get(hour);
+	  Integer difference = (Minutes.minutesBetween(start, end).getMinutes());
+	  diff += difference;
+	  
+	  System.out.println(hour + " ; " + diff + " ; " + difference);
+	  waitTime.put(hour, diff);
   }
 }

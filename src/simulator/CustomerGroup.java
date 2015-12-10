@@ -1,5 +1,7 @@
 package simulator;
 
+import org.joda.time.DateTime;
+
 import simulator.CustomerState.State;
 
 
@@ -7,6 +9,7 @@ public class CustomerGroup {
   private int id;
   private int number;
   private CustomerState state;
+  private DateTime joinQueueTime = null;
   
   /**
    * Constructor.
@@ -31,5 +34,15 @@ public class CustomerGroup {
   
   public void setState(CustomerState newState) {
     this.state = newState;
+  }
+  
+  public void setJoinQueueTime(DateTime t)
+  {
+	  this.joinQueueTime = t;
+  }
+  
+  public DateTime getJoinQueueTime()
+  {
+	  return this.joinQueueTime;
   }
 }

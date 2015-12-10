@@ -15,14 +15,11 @@ public class CustomerJoinQueueEvent extends CustomerEvent{
   public CustomerJoinQueueEvent(DateTime dt , CustomerGroup cg , Manager manager) {
     super(dt , cg);
     this.manager = manager;
-    //System.out.println("a join quene event created to be executed at " + dt.toString("HH:mm"));
   }
 
   @Override
   void execute() {
-    //System.out.format("%s Joins the queue\n" , super.getExecuteStatementHeader());
     Logger.createLog(String.format("%s Joins the queue\n" , super.getExecuteStatementHeader()));
-    //queueManger.add(super.cg);
     manager.add(super.executeTime, super.cg);
   }
 

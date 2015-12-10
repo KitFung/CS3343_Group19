@@ -4,7 +4,7 @@ import org.joda.time.DateTime;
 
 public class ManagerDesk {
 
-  CustomerQueue queue;
+  private CustomerQueue queue;
 
   private ManagerDesk() {
     queue = new CustomerQueue();
@@ -32,5 +32,9 @@ public class ManagerDesk {
   public CustomerGroup nextCustomer(DateTime dt) {
     return queue.getNextTicket(dt).getCustomerGroup();
   }
-
+  
+  public int getCustomerInQueue()
+  {
+	  return queue.queueSize();
+  }
 }

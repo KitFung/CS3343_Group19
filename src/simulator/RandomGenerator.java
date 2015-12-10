@@ -5,13 +5,12 @@ import java.util.Random;
 
 public class RandomGenerator {
   public static final int MAX_WAIT_FOOD_MIN = 10;
-  public static final int MIN_WAIT_FOOD_MIN = 3;
+  public static final int MIN_WAIT_FOOD_MIN = 5;
 
   public static final int MAX_MEAL_TIME_MIN = 40;
-  public static final int MIN_MEAL_TIME_MIN = 10;
+  public static final int MIN_MEAL_TIME_MIN = 15;
   
   public static final int MAX_CUSTOMER_IN_GROUP = 6;
-  //int randomNum = rand.nextInt((max - min) + 1) + min;
 
   static Random rnd = new Random();
   

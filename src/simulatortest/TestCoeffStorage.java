@@ -7,7 +7,7 @@ import simulator.CoeffStorage;
 
 import java.io.File;
 
-public class CoeffStorageTest extends TestCase{
+public class TestCoeffStorage extends TestCase{
   
   @Test
   public void testInvalid() {
