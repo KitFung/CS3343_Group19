@@ -12,7 +12,6 @@ import simulator.Table;
 
 import java.util.ArrayList;
 
-
 public class TestTable extends TestCase {
   ArrayList<CustomerGroup> expected;
   ArrayList<CustomerGroup> actual;

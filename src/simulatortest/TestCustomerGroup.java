@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 import org.junit.Test;
 
 import simulator.CustomerGroup;
+import simulator.CustomerGroupComparator;
 import simulator.CustomerState;
 import simulator.CustomerState.State;
 
@@ -56,4 +57,30 @@ public class TestCustomerGroup extends TestCase {
     assertEquals(waitingFood.getState(), result);
   }
 
+  @Test 
+  public void test5() {
+	  CustomerState defState = new CustomerState("TEST");
+	  CustomerGroup customer = new CustomerGroup(1, 2, defState);
+	  assertEquals("EMPTY", customer.getState().toString());
+  }
+  
+  //Test Comparator
+  @Test
+  public void test6() {
+	  CustomerState inQueue = new CustomerState("QUEUE");
+	  CustomerGroup cg1 = new CustomerGroup(1, 2, inQueue);
+	  CustomerGroup cg2 = new CustomerGroup(2, 2, inQueue);
+	  int result = new CustomerGroupComparator().compare(cg1, cg2);
+	  assertTrue( result < 0);
+  }
+  
+  //Test Comparator
+  @Test
+  public void test7() {
+	  CustomerState inQueue = new CustomerState("QUEUE");
+	  CustomerGroup cg1 = new CustomerGroup(1, 2, inQueue);
+	  CustomerGroup cg2 = new CustomerGroup(2, 4, inQueue);
+	  int result = new CustomerGroupComparator().compare(cg1, cg2);
+	  assertTrue( result < 0);
+  }
 }
